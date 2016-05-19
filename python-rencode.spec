@@ -5,7 +5,7 @@ Summary:        Web safe object pickling/unpickling
 License:        GPLv3+ and BSD
 URL:            https://github.com/aresch/rencode
 Group:          Development/Python
-#Source0:        https://github.com/aresch/rencode/archive/v%{version}.tar.gz
+Source0:        http://file-store.openmandriva.org/download/796fe2986ca8d3454678cd76f7e2033547e11c38
 BuildRequires:  python-devel
 BuildRequires:  python-cython
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
