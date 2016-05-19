@@ -4,14 +4,10 @@ Release:        1
 Summary:        Web safe object pickling/unpickling
 License:        GPLv3+ and BSD
 URL:            https://github.com/aresch/rencode
-
 Group:          Development/Python
-
 Source0:        https://github.com/aresch/rencode/archive/v%{version}.tar.gz
-      
 BuildRequires:  python-devel
 BuildRequires:  python-cython
-
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description
@@ -29,7 +25,7 @@ export CFLAGS="%{optflags}"
 
 %install
 %{__rm} -rf %{buildroot}
-%{__python} setup.py install -O2 --skip-build --root=%{buildroot} --prefix=%{_prefix}
+%{__python} setup.py install --skip-build --root=%{buildroot} --prefix=%{_prefix}
 %{_bindir}/find %{buildroot} -name \*.egg-info | %{_bindir}/xargs %{__rm}
 
 %clean
@@ -37,10 +33,10 @@ export CFLAGS="%{optflags}"
 
 %files
 %defattr(-,root,root,0755)
-%doc LICENSE README examples
-%{python_sitearch}/yaml
+%{python_sitearch}/rencode
 %{python_sitearch}/*.so
-
+%{python_sitearch}/rencode*.egg-info
+%doc COPYING README.md
 
 %changelog
 * Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.3-2
@@ -70,57 +66,4 @@ export CFLAGS="%{optflags}"
 
 * Thu Apr 18 2013 T.C. Hollingsworth <tchollingsworth@gmail.com> - 1.0.2-1.20121209svn33
 - initial package
-
-
-
-
-##########################################################################################
-
-
-
-
-%build
-CFLAGS="%{optflags}" %{__python} setup.py build
-
-pushd %{py3dir}
-CFLAGS="%{optflags}" %{__python3} setup.py build
-popd
-
-%install
-pushd %{py3dir}
-%{__python3} setup.py install --skip-build --root %{buildroot}
-popd
-
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
-
-#fix permissions on shared objects
-chmod 0755 \
-    %{buildroot}%{python_sitearch}/rencode/_rencode.so \
-    %{buildroot}%{python3_sitearch}/rencode/_rencode.cpython-*.so
-
-%check
-pushd tests
-ln -sf %{buildroot}%{python_sitearch}/rencode rencode
-%{__python} test_rencode.py
-%{__python} timetest.py
-popd
-
-pushd %{py3dir}/tests
-ln -sf %{buildroot}%{python3_sitearch}/rencode rencode
-%{__python3} test_rencode.py
-%{__python3} timetest.py
-popd
-
-%files
-%{python_sitearch}/rencode
-%{python_sitearch}/rencode*.egg-info
-%doc COPYING README.md
-
-%files -n python3-rencode
-%{python3_sitearch}/rencode
-%{python3_sitearch}/rencode*.egg-info
-%doc COPYING README.md
-
-
-
 
